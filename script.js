@@ -132,9 +132,9 @@ async function gerarImagem() {
     // ============================
     // ONLINE + TOTAL
     // ============================
-    ctx.font = "28px Poppins";
+    ctx.font = "bold 28px Poppins";
     ctx.fillText("ONLINE: " + document.getElementById("online").innerText, 20, y); 
-    y += 45;
+    y += 50;
 
     ctx.font = "bold 30px Poppins";
     ctx.fillText("TOTAL GERAL: " + document.getElementById("totalGeral").innerText, 20, y);
@@ -176,3 +176,4 @@ async function compartilharWhatsApp() {
 
     }, "image/png");
 }
+
