@@ -27,12 +27,13 @@ h2, h3 {
     text-align: center;
 }
 
-input[type="text"], input[type="date"] {
+input[type="text"], input[type="date"], textarea {
     width: 100%;
     padding: 8px;
     margin-bottom: 12px;
     border-radius: 6px;
     border: 1px solid #ccc;
+    font-family: 'Poppins';
 }
 
 .row {
@@ -73,6 +74,13 @@ input[type="text"], input[type="date"] {
     font-weight: bold;
     text-align: center;
     margin-top: 5px;
+}
+
+.textbox-titulo {
+    margin-top: -5px;
+    margin-bottom: 4px;
+    font-weight: 600;
+    font-size: 14px;
 }
 
 .total-box {
