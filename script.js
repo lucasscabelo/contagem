@@ -94,7 +94,7 @@ async function gerarImagem() {
     ctx.textAlign = "left";
 
     ctx.font = "bold 32px Poppins";
-    ctx.fillText("CONTAGEM ICM Araçás III", 20, y); 
+    ctx.fillText("Contagem - ICM Araçás III", 20, y); 
     y += 50;
 
     ctx.font = "26px Poppins";
@@ -186,6 +186,7 @@ async function compartilharWhatsApp() {
 
     }, "image/png");
 }
+
 
 
 
