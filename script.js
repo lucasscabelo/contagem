@@ -50,6 +50,11 @@ async function gerarImagem() {
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
 
+    // Fundo branco (antes de qualquer desenho)
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+
     canvas.width = 800;
     canvas.height = 1000;
 
@@ -60,8 +65,8 @@ async function gerarImagem() {
 
     let y = 60;
 
-    ctx.fillText("CONTAGEM ICM", 20, y); y += 40;
-    ctx.fillText("Responsável: " + document.getElementById("responsavel").value, 20, y); y += 30;
+    ctx.fillText("CONTAGEM ICM Araçás III", 20, y); y += 40;
+    ctx.fillText("Quem está preenchendo ?: " + document.getElementById("responsavel").value, 20, y); y += 30;
     ctx.fillText("Data: " + document.getElementById("data").value, 20, y); y += 40;
 
     ctx.fillText("MEMBROS: " + document.getElementById("totalMembros").innerText, 20, y); y += 40;
