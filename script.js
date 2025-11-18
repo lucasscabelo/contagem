@@ -1,5 +1,8 @@
 const categorias = ["Varões", "Senhoras", "Jovens", "Cias"];
 
+// -------------------------------
+// FUNÇÃO PARA CRIAR LINHAS NORMAIS
+// -------------------------------
 function criarLinha(cat, tipo) {
     return `
         <div class="row">
@@ -14,12 +17,30 @@ function criarLinha(cat, tipo) {
     `;
 }
 
+// -------------------------------
+// FUNÇÃO PARA CRIAR CAIXAS DE TEXTO EXTRAS DOS VISITANTES
+// -------------------------------
+function criarCampoNomes(cat) {
+    return `
+        <p class="textbox-titulo">Nomes dos(as) ${cat}:</p>
+        <textarea id="nomes_${cat}" rows="2" placeholder="Digite os nomes..."></textarea>
+    `;
+}
+
+// INSERIR MEMBROS NORMALMENTE
 document.getElementById("membros-section").innerHTML =
     categorias.map(c => criarLinha(c, "m")).join("");
 
+// INSERIR VISITANTES + CAMPOS DE TEXTO
 document.getElementById("visitantes-section").innerHTML =
-    categorias.map(c => criarLinha(c, "v")).join("");
+    categorias.map(c =>
+        criarLinha(c, "v") + criarCampoNomes(c)
+    ).join("");
 
+
+// -------------------------------
+// CONTADOR
+// -------------------------------
 function alterar(campo, valor) {
     let el = document.getElementById(campo);
     let num = parseInt(el.innerText) + valor;
@@ -46,52 +67,37 @@ function atualizarTotais() {
     document.getElementById("totalGeral").innerText = totalGeral;
 }
 
+
+// -------------------------------
+// GERAR IMAGEM
+// -------------------------------
 async function gerarImagem() {
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
 
     canvas.width = 800;
-    canvas.height = 1200; // 👈 AQUI VOCÊ PODE AUMENTAR ALTURA DA IMAGEM
+    canvas.height = 1600;
 
-    // FUNDO BRANCO
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     await document.fonts.ready;
 
-    // ============================
-    // LOGO CENTRALIZADA NO TOPO
-    // ============================
     const logo = new Image();
-    logo.src = "logo.png"; // 👈 coloque o nome da sua logo aqui
-
+    logo.src = "logo.png";
     await new Promise(resolve => logo.onload = resolve);
 
-    const logoLargura = 180;  // 👈 AQUI VOCÊ ALTERA O TAMANHO DA LOGO
-    const logoAltura = 180;
+    ctx.drawImage(logo, 300, 30, 200, 200);
 
-    const logoX = (canvas.width - logoLargura) / 2;
-    const logoY = 30;         // 👈 DISTÂNCIA DO TOPO
+    let y = 260;
 
-    ctx.drawImage(logo, logoX, logoY, logoLargura, logoAltura);
+    ctx.fillStyle = "#000";
+    ctx.textAlign = "left";
 
-    // após a logo, começamos o texto abaixo
-    let y = 260; // 👈 AQUI VOCÊ ALTERA O ESPAÇAMENTO ENTRE A LOGO E O TEXTO
-
-    // ============================
-    // CONFIGURAÇÃO DE TEXTO
-    // ============================
-    ctx.fillStyle = "#000000"; // 👈 COR DO TEXTO (PODE ALTERAR)
-    ctx.textAlign = "left";    // 👈 TEXTOS CONTINUAM À ESQUERDA
-
-    // ============================
-    // TÍTULO PRINCIPAL
-    // ============================
-    ctx.font = "bold 32px Poppins"; // 👈 TAMANHO E ESTILO DO TÍTULO
+    ctx.font = "bold 32px Poppins";
     ctx.fillText("CONTAGEM ICM Araçás III", 20, y); 
-    y += 50; // 👈 ESPAÇAMENTO ENTRE LINHAS
+    y += 50;
 
-    // SUBTÍTULOS E CAMPOS
     ctx.font = "26px Poppins";
     ctx.fillText("Quem está preenchendo: " + document.getElementById("responsavel").value, 20, y); 
     y += 40;
@@ -99,39 +105,41 @@ async function gerarImagem() {
     ctx.fillText("Data: " + document.getElementById("data").value, 20, y); 
     y += 50;
 
-    // ============================
-    // MEMBROS
-    // ============================
     ctx.font = "bold 28px Poppins";
     ctx.fillText("MEMBROS: " + document.getElementById("totalMembros").innerText, 20, y); 
     y += 45;
 
     categorias.forEach(c => {
-        ctx.font = "24px Poppins";  // 👈 TAMANHO DA FONTE DOS ITENS
+        ctx.font = "24px Poppins";
         ctx.fillText(`${c}: ${document.getElementById("m_" + c).innerText}`, 40, y);
-        y += 35; // 👈 ESPAÇO ENTRE CADA LINHA DOS MEMBROS
+        y += 35;
     });
 
     y += 25;
 
-    // ============================
-    // VISITANTES
-    // ============================
     ctx.font = "bold 28px Poppins";
     ctx.fillText("VISITANTES: " + document.getElementById("totalVisitantes").innerText, 20, y); 
     y += 45;
 
+    // Visitantes com nomes
     categorias.forEach(c => {
         ctx.font = "24px Poppins";
         ctx.fillText(`${c}: ${document.getElementById("v_" + c).innerText}`, 40, y);
-        y += 35; // 👈 ESPAÇO ENTRE CADA LINHA DOS VISITANTES
+        y += 30;
+
+        let nomes = document.getElementById("nomes_" + c).value.trim();
+
+        if (nomes !== "") {
+            ctx.font = "20px Poppins";
+            ctx.fillText("• " + nomes, 60, y);
+            y += 35;
+        } else {
+            y += 10;
+        }
     });
 
     y += 25;
 
-    // ============================
-    // ONLINE + TOTAL
-    // ============================
     ctx.font = "bold 28px Poppins";
     ctx.fillText("ONLINE: " + document.getElementById("online").innerText, 20, y); 
     y += 50;
@@ -139,13 +147,16 @@ async function gerarImagem() {
     ctx.font = "bold 30px Poppins";
     ctx.fillText("TOTAL GERAL: " + document.getElementById("totalGeral").innerText, 20, y);
 
-    // GERAR BASE64 DA IMAGEM
     const img = canvas.toDataURL("image/png");
 
     document.getElementById("resultado").innerHTML =
         `<img src="${img}" style="width:100%;margin-top:20px;border:1px solid #000">`;
 }
 
+
+// -------------------------------
+// COMPARTILHAR WHATSAPP
+// -------------------------------
 async function compartilharWhatsApp() {
 
     const canvas = document.getElementById("canvas");
@@ -176,4 +187,3 @@ async function compartilharWhatsApp() {
 
     }, "image/png");
 }
-
