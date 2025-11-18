@@ -22,7 +22,7 @@ function criarLinha(cat, tipo) {
 // -------------------------------
 function criarCampoNomes(cat) {
     return `
-        <p class="textbox-titulo">Nomes dos(as) ${cat}:</p>
+        <p class="textbox-titulo"> ${cat}:</p>
         <textarea id="nomes_${cat}" rows="2" placeholder="Digite os nomes..."></textarea>
     `;
 }
@@ -187,5 +187,6 @@ async function compartilharWhatsApp() {
 
     }, "image/png");
 }
+
 
 
