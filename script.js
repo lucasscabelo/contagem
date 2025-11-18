@@ -76,7 +76,7 @@ async function gerarImagem() {
     const ctx = canvas.getContext("2d");
 
     canvas.width = 800;
-    canvas.height = 1200;
+    canvas.height = 1100;
 
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -187,4 +187,5 @@ async function compartilharWhatsApp() {
 
     }, "image/png");
 }
+
 
