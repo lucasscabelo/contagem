@@ -1,4 +1,4 @@
-const categorias = ["Varões", "Senhoras", "Jovens", "Cias"];
+const categorias = ["Varões", "Senhoras", "Jovens", "CIAS"];
 
 // -------------------------------
 // FUNÇÃO PARA CRIAR LINHAS NORMAIS
@@ -186,6 +186,7 @@ async function compartilharWhatsApp() {
 
     }, "image/png");
 }
+
 
 
 
