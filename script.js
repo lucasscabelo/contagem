@@ -65,7 +65,7 @@ async function gerarImagem() {
 
     let y = 60;
 
-    ctx.fillText("CONTAGEM ICM Araçás III", 20, y); y += 40;
+    ctx.fillText("Contagem ICM Araçás III", 20, y); y += 40;
     ctx.fillText("Quem está preenchendo: " + document.getElementById("responsavel").value, 20, y); y += 30;
     ctx.fillText("Data: " + document.getElementById("data").value, 20, y); y += 40;
 
@@ -129,3 +129,4 @@ async function compartilharWhatsApp() {
 
     }, "image/png");
 }
+
