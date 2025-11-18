@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contagem ICM Araçás III</title>
+    <link rel="shortcut icon" href="logo.png" type="image/x-icon">
+
+    <!-- Fonte Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- LOGO AO TOPO -->
+    <div class="logo-box">
+        <img src="logo.png" alt="Logo da Igreja">
+    </div>
+
+    <h2>Contagem ICM Araçás III</h2>
+
+    <label>Quem está preenchendo:</label>
+    <input type="text" id="responsavel" placeholder="Seu nome">
+
+    <label>Data:</label>
+    <input type="date" id="data">
+
+    <h3>Membros</h3>
+    <div id="membros-section"></div>
+    <p class="sum-label">Total de membros: <span id="totalMembros">0</span></p>
+
+    <h3>Visitantes</h3>
+    <div id="visitantes-section"></div>
+    <p class="sum-label">Total de visitantes: <span id="totalVisitantes">0</span></p>
+
+    <div class="row">
+        <span class="label">Online</span>
+
+        <div class="controls">
+            <button class="btn" onclick="alterar('online', -1)">-</button>
+            <span id="online" class="value">0</span>
+            <button class="btn" onclick="alterar('online', 1)">+</button>
+        </div>
+    </div>
+
+    <div class="total-box">
+        TOTAL GERAL: <span id="totalGeral">0</span>
+    </div>
+
+    <button class="gerar" onclick="gerarImagem()">Gerar Imagem</button>
+    <button class="gerar" onclick="compartilharWhatsApp()">Compartilhar no WhatsApp</button>
+
+
+    <div id="resultado"></div>
+
+    <canvas id="canvas"></canvas>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
