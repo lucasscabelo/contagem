@@ -204,8 +204,8 @@ async function compartilharWhatsApp() {
 
 function copiarTexto() {
 
-    let texto = `CONTAGEM ICM Araçás III\n`;
-    texto += `Responsável: ${document.getElementById("responsavel").value}\n`;
+    let texto = `Contagem - ICM Araçás III\n`;
+    texto += `Quem está preechendo:: ${document.getElementById("responsavel").value}\n`;
     texto += `Data: ${document.getElementById("data").value}\n\n`;
 
     texto += `MEMBROS (Total: ${document.getElementById("totalMembros").innerText})\n`;
@@ -232,3 +232,4 @@ function copiarTexto() {
         .then(() => alert("Texto copiado!"))
         .catch(() => alert("Erro ao copiar texto."));
 }
+
