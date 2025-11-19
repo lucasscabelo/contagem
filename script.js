@@ -63,30 +63,40 @@ function atualizarTotais() {
 }
 
 // -------------------------------
-// GERAR IMAGEM COM QUEBRA DE LINHA
+// QUEBRA DE LINHA AUTOMÁTICA (NOVA VERSÃO)
 // -------------------------------
 
 function wrapText(context, text, x, y, maxWidth, lineHeight) {
-    const words = text.split(" ");
-    let line = "";
+    const paragraphs = text.split("\n"); // respeita ENTER
 
-    for (let n = 0; n < words.length; n++) {
-        const testLine = line + words[n] + " ";
-        const metrics = context.measureText(testLine);
-        const testWidth = metrics.width;
+    paragraphs.forEach(paragraph => {
+        const words = paragraph.split(" ");
+        let line = "";
 
-        if (testWidth > maxWidth) {
-            context.fillText(line, x, y);
-            line = words[n] + " ";
-            y += lineHeight;
-        } else {
-            line = testLine;
+        for (let n = 0; n < words.length; n++) {
+            const testLine = line + words[n] + " ";
+            const metrics = context.measureText(testLine);
+            const testWidth = metrics.width;
+
+            if (testWidth > maxWidth) {
+                context.fillText(line, x, y);
+                line = words[n] + " ";
+                y += lineHeight;
+            } else {
+                line = testLine;
+            }
         }
-    }
 
-    context.fillText(line, x, y);
-    return y + lineHeight;
+        context.fillText(line, x, y);
+        y += lineHeight;
+    });
+
+    return y;
 }
+
+// -------------------------------
+// GERAR IMAGEM
+// -------------------------------
 
 async function gerarImagem() {
 
@@ -140,7 +150,7 @@ async function gerarImagem() {
     ctx.fillText("VISITANTES: " + document.getElementById("totalVisitantes").innerText, 20, y);
     y += 45;
 
-    // Visitantes + Nomes com quebra automática
+    // Visitantes + nomes com quebra automática
     categorias.forEach(c => {
         ctx.font = "24px Poppins";
         ctx.fillText(`${c}: ${document.getElementById("v_" + c).innerText}`, 40, y);
@@ -164,14 +174,13 @@ async function gerarImagem() {
     ctx.font = "bold 30px Poppins";
     ctx.fillText("TOTAL GERAL: " + document.getElementById("totalGeral").innerText, 20, y);
 
-    // EXIBE IMAGEM FINAL
     const img = canvas.toDataURL("image/png");
     document.getElementById("resultado").innerHTML =
         `<img src="${img}" style="width:100%;margin-top:20px;border:1px solid #000">`;
 }
 
 // -------------------------------
-// BOTÃO: COMPARTILHAR
+// BOTÃO WHATSAPP
 // -------------------------------
 
 async function compartilharWhatsApp() {
@@ -199,7 +208,7 @@ async function compartilharWhatsApp() {
 }
 
 // -------------------------------
-// BOTÃO: COPIAR TEXTO
+// BOTÃO COPIAR TEXTO
 // -------------------------------
 
 function copiarTexto() {
@@ -232,4 +241,3 @@ function copiarTexto() {
         .then(() => alert("Texto copiado!"))
         .catch(() => alert("Erro ao copiar texto."));
 }
-
