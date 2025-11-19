@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
 <div class="container">
 
     <!-- LOGO AO TOPO -->
@@ -38,7 +37,6 @@
 
     <div class="row">
         <span class="label">Online</span>
-
         <div class="controls">
             <button class="btn" onclick="alterar('online', -1)">-</button>
             <span id="online" class="value">0</span>
@@ -50,16 +48,15 @@
         TOTAL GERAL: <span id="totalGeral">0</span>
     </div>
 
+    <!-- Botões -->
     <button class="gerar" onclick="gerarImagem()">Gerar Imagem</button>
     <button class="gerar" onclick="compartilharWhatsApp()">Compartilhar no WhatsApp</button>
-
+    <button class="gerar" onclick="copiarTexto()">Copiar Texto</button>
 
     <div id="resultado"></div>
-
     <canvas id="canvas"></canvas>
 </div>
 
 <script src="script.js"></script>
 </body>
 </html>
-
