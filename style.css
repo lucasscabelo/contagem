@@ -18,6 +18,7 @@ body {
 .logo-box {
     text-align: center;
 }
+
 .logo-box img {
     max-width: 140px;
     margin-bottom: 10px;
@@ -43,9 +44,7 @@ input[type="text"], input[type="date"], textarea {
     margin: 12px 0;
 }
 
-.label {
-    width: 100px;
-}
+.label { width: 100px; }
 
 .controls {
     display: flex;
@@ -104,6 +103,4 @@ input[type="text"], input[type="date"], textarea {
     cursor: pointer;
 }
 
-#canvas {
-    display: none;
-}
+#canvas { display: none; }
