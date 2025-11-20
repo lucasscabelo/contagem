@@ -17,12 +17,14 @@ function criarLinha(cat, tipo) {
 }
 
 // -------------------------------
-// CAMPOS DE NOMES
+// CAMPOS DE NOMES COM AUTO-RESIZE
 // -------------------------------
 
 function criarCampoNomes(cat) {
     return `
-    <textarea id="nomes_${cat}" rows="2" placeholder="Digite os nomes..."></textarea>
+    <textarea id="nomes_${cat}" rows="1" 
+        placeholder="Digite os nomes..."
+        oninput="autoResize(this)"></textarea>
     `;
 }
 
@@ -31,6 +33,15 @@ document.getElementById("membros-section").innerHTML =
 
 document.getElementById("visitantes-section").innerHTML =
     categorias.map(c => criarLinha(c, "v") + criarCampoNomes(c)).join("");
+
+// -------------------------------
+// AUTO-RESIZE DOS TEXTAREAS
+// -------------------------------
+
+function autoResize(el) {
+    el.style.height = "auto";
+    el.style.height = (el.scrollHeight) + "px";
+}
 
 // -------------------------------
 // CONTADORES
@@ -63,31 +74,30 @@ function atualizarTotais() {
 }
 
 // -------------------------------
-// QUEBRA DE LINHA AUTOMÁTICA (NOVA VERSÃO)
+// FUNÇÃO DE QUEBRA DE LINHA
 // -------------------------------
 
 function wrapText(context, text, x, y, maxWidth, lineHeight) {
-    const paragraphs = text.split("\n"); // respeita ENTER
+    text = text.replace(/\r\n|\r/g, "\n");  // <<< CORREÇÃO OBRIGATÓRIA
 
-    paragraphs.forEach(paragraph => {
-        const words = paragraph.split(" ");
-        let line = "";
+    const lines = text.split("\n"); // respeita ENTER
 
-        for (let n = 0; n < words.length; n++) {
-            const testLine = line + words[n] + " ";
-            const metrics = context.measureText(testLine);
-            const testWidth = metrics.width;
+    lines.forEach(line => {
+        const words = line.split(" ");
+        let current = "";
 
-            if (testWidth > maxWidth) {
-                context.fillText(line, x, y);
-                line = words[n] + " ";
+        words.forEach(word => {
+            let testLine = current + word + " ";
+            if (context.measureText(testLine).width > maxWidth) {
+                context.fillText(current, x, y);
+                current = word + " ";
                 y += lineHeight;
             } else {
-                line = testLine;
+                current = testLine;
             }
-        }
+        });
 
-        context.fillText(line, x, y);
+        context.fillText(current, x, y);
         y += lineHeight;
     });
 
@@ -150,13 +160,14 @@ async function gerarImagem() {
     ctx.fillText("VISITANTES: " + document.getElementById("totalVisitantes").innerText, 20, y);
     y += 45;
 
-    // Visitantes + nomes com quebra automática
+    // Visitantes + Nomes com QUEBRA AUTOMÁTICA
     categorias.forEach(c => {
         ctx.font = "24px Poppins";
         ctx.fillText(`${c}: ${document.getElementById("v_" + c).innerText}`, 40, y);
         y += 30;
 
         let nomes = document.getElementById("nomes_" + c).value.trim();
+        nomes = nomes.replace(/\r\n|\r/g, "\n"); // <<< ESSENCIAL
 
         if (nomes !== "") {
             ctx.font = "20px Poppins";
@@ -180,7 +191,7 @@ async function gerarImagem() {
 }
 
 // -------------------------------
-// BOTÃO WHATSAPP
+// BOTÃO: COMPARTILHAR
 // -------------------------------
 
 async function compartilharWhatsApp() {
@@ -208,13 +219,12 @@ async function compartilharWhatsApp() {
 }
 
 // -------------------------------
-// BOTÃO COPIAR TEXTO
+// BOTÃO: COPIAR TEXTO
 // -------------------------------
 
 function copiarTexto() {
-
     let texto = `Contagem - ICM Araçás III\n`;
-    texto += `Quem está preechendo:: ${document.getElementById("responsavel").value}\n`;
+    texto += `Quem está preenchendo: ${document.getElementById("responsavel").value}\n`;
     texto += `Data: ${document.getElementById("data").value}\n\n`;
 
     texto += `MEMBROS (Total: ${document.getElementById("totalMembros").innerText})\n`;
@@ -225,7 +235,8 @@ function copiarTexto() {
     texto += `\nVISITANTES (Total: ${document.getElementById("totalVisitantes").innerText})\n`;
     categorias.forEach(c => {
         const qnt = document.getElementById("v_" + c).innerText;
-        const nomes = document.getElementById("nomes_" + c).value.trim();
+        let nomes = document.getElementById("nomes_" + c).value.trim();
+        nomes = nomes.replace(/\r\n|\r/g, "\n");
 
         texto += `- ${c}: ${qnt}\n`;
 
