@@ -114,7 +114,7 @@ async function gerarImagem() {
     const ctx = canvas.getContext("2d");
 
     canvas.width = 800;
-    canvas.height = 1150;
+    canvas.height = 1180;
 
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -252,3 +252,4 @@ function copiarTexto() {
         .then(() => alert("Texto copiado!"))
         .catch(() => alert("Erro ao copiar texto."));
 }
+
